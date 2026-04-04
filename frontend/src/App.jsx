@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ManualForm from './components/ManualForm'
 import CSVUpload from './components/CSVUpload'
+import FileAnalyze from './components/FileAnalyze'
 
 function App() {
   const [activeTab, setActiveTab] = useState('manual')
@@ -51,7 +52,7 @@ function App() {
         marginBottom: '28px',
         borderBottom: '1px solid #2a2a3a'
       }}>
-        {['manual', 'csv'].map(tab => (
+        {['manual', 'csv', 'file'].map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -68,7 +69,7 @@ function App() {
               marginBottom: '-1px',
               transition: 'all 0.2s'
             }}>
-            {tab === 'manual' ? 'Manual Input' : 'CSV Upload'}
+            {tab === 'manual' ? 'Manual Input' : tab === 'csv' ? 'CSV Upload' : 'File Analysis'}
           </button>
         ))}
       </div>
@@ -76,6 +77,7 @@ function App() {
       {/* Content */}
       {activeTab === 'manual' && <ManualForm />}
       {activeTab === 'csv' && <CSVUpload />}
+      {activeTab === 'file' && <FileAnalyze />}
 
     </div>
   )

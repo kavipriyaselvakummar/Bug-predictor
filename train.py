@@ -3,7 +3,6 @@ import numpy as np
 import pickle
 
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.metrics import classification_report, accuracy_score,roc_auc_score
 from imblearn.combine import SMOTETomek
 from sklearn.feature_selection import SelectKBest, f_classif
@@ -47,10 +46,9 @@ for thresh in [0.25,0.30,0.35,0.40,0.45,0.50]:
     print(f"Threshold:{thresh}")
 BEST_THRESHOLD = 0.35
 y_pred_final = (y_prob>=BEST_THRESHOLD).astype(int)
-print("Accuracy:",accuracy_score(y_test,y_pred))
+print("Accuracy:",accuracy_score(y_test,y_pred_final))
 print("Classification report:",classification_report(y_test,y_pred_final))
 print("ROC-AUC:", roc_auc_score(y_test,y_prob))
-
 with open("model.pkl","wb") as f:
     pickle.dump({"model":model,"selector":selector,"scaler":scaler,"threshold":BEST_THRESHOLD},f)
 

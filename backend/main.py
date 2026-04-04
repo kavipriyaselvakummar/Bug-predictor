@@ -100,10 +100,30 @@ async def predict_csv(file:UploadFile=File(...)):
 
     if "defects" in df.columns:
         df = df.drop("defects",axis=1)
+    if "function" in df.columns:
+        df = df.drop("function", axis=1)
+    df = df.select_dtypes(include=[np.number])
+
     
     df.replace("?",np.nan,inplace=True)
     df=df.apply(pd.to_numeric,errors="coerce")
     df.fillna(df.median(),inplace=True)
+
+    if df.shape[1] < 21:
+        raise HTTPException(
+            status_code=400,
+            detail=f"CSV has only {df.shape[1]} numeric columns but 21 are needed."
+        )
+
+    # Take first 21 columns
+    df = df.iloc[:, :21]
+
+    # Force correct column names
+    df.columns = [
+        "loc", "v(g)", "ev(g)", "iv(g)", "n", "v", "l", "d", "i", "e",
+        "b", "t", "lOCode", "lOComment", "lOBlank", "locCodeAndComment",
+        "uniq_Op", "uniq_Opnd", "total_Op", "total_Opnd", "branchCount"
+    ]
 
     X=scaler.transform(df)
     X=selector.transform(X)

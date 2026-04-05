@@ -22,7 +22,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-with open("model.pkl","rb") as f:
+BASE_DIR = os.path.dirname(__file__)   # points to backend/
+model_path = os.path.join(BASE_DIR, "model.pkl")
+
+with open(model_path, "rb") as f:
     bundle = pickle.load(f)
 
 model = bundle["model"]

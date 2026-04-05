@@ -97,10 +97,11 @@ function FileAnalyze() {
     setLoading(true)
     setError(null)
     setResult(null)
+    const API_URL = import.meta.env.VITE_API_URL;
     const formData = new FormData()
     formData.append('file', file)
     try {
-      const res = await axios.post('http://localhost:8000/analyze-file', formData)
+      const res = await axios.post(`${API_URL}/analyze-file`, formData)
       setResult(res.data)
     } catch (err) {
       if (err.response && err.response.data && err.response.data.detail) {

@@ -20,9 +20,10 @@ function CSVUpload() {
     setError(null)
     setResult(null)
     const formData = new FormData()
+    const API_URL = import.meta.env.VITE_API_URL;
     formData.append('file', file)
     try {
-      const res = await axios.post('http://localhost:8000/predict/csv', formData)
+      const res = await axios.post(`${API_URL}/predict/csv`, formData)
       setResult(res.data)
     } catch (err) {
       setError('Could not connect to backend. Is it running on port 8000?')

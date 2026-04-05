@@ -42,10 +42,11 @@ function ManualForm() {
     setLoading(true)
     setError(null)
     setResult(null)
+    const API_URL = import.meta.env.VITE_API_URL;
     const body = {}
     FIELDS.forEach(f => { body[f.key] = parseFloat(values[f.key]) || 0 })
     try {
-      const res = await axios.post('http://localhost:8000/predict/json', body)
+      const res = await axios.post(`${API_URL}/predict/json`, body)
       setResult(res.data)
     } catch (err) {
       setError('Could not connect to backend. Is it running on port 8000?')
